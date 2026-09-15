@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  tos7-app-20-privatebin:
+    image: privatebin/nginx-fpm-alpine:1.7.6
+    container_name: tos7-app-20-privatebin
+    restart: unless-stopped
+    network_mode: host
+    user: "1000:1000"
+    volumes:
+      - /Volume*/DockerAppData/tos7-app-20-privatebin/data:/srv/data
+    environment:
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+x-app-meta:
+  web:
+    port: 18100
+    protocol: http
